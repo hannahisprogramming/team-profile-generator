@@ -8,9 +8,136 @@ const fs = require("fs");
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
-const render = require("./lib/htmlRenderer");
+const render = require("./lib/htmlRenderer"); //
+const { exit } = require("process");
+const employees = [];
 
+function startApp () {
+  inquirer.prompt([
+    {
+      type: "list",
+      name:"options",
+      choices:["Add Manager","Add Engineer","Add Intern", "Exit"]
+    }
+  ]) 
+  .then(response => {
+    switch (response.options) {
+      case "Add Manager": 
+        addManager();
+        break;
+      case "Add Engineer":
+        addEngineer();
+        break;
+      case "Add Intern":
+        addIntern();
+        break;
+      default:
+        renderHTML();
+        exit();
+    }
+  })
+}
 
+function addManager () {
+  inquirer.prompt([
+    {
+      type: "input",
+      message: "enter manager name:",
+      name:"empname"
+    },
+    {
+      type: "input",
+      message: "enter manager id:",
+      name:"empid"
+    },
+    {
+      type: "input",
+      message: "enter manager email:",
+      name:"empemail"
+    },
+    {
+      type: "input",
+      message: "enter manager office number:",
+      name:"empofficenumber"
+    }
+  ])
+  .then(response => {
+    let newManager = new Manager(response.empname, response.empid, response.empemail, response.empofficenumber);
+    console.log(newManager);
+    employees.push(newManager);
+    startApp();
+  })
+}
+
+function addEngineer () {
+  inquirer.prompt([
+    {
+      type: "input",
+      message: "enter engineer name:",
+      name:"empname"
+    },
+    {
+      type: "input",
+      message: "enter engineer id:",
+      name:"empid"
+    },
+    {
+      type: "input",
+      message: "enter engineer email:",
+      name:"empemail"
+    },
+    {
+      type: "input",
+      message: "enter engineer github:",
+      name:"empgithub"
+    }
+  ])
+  .then(response => {
+    let newEngineer = new Engineer(response.empname, response.empid, response.empemail, response.empgithub);
+    console.log(newEngineer);
+    employees.push(newEngineer);
+    startApp();
+  })
+}
+
+function addIntern () {
+  inquirer.prompt([
+    {
+      type: "input",
+      message: "enter intern name:",
+      name:"empname"
+    },
+    {
+      type: "input",
+      message: "enter intern id:",
+      name:"empid"
+    },
+    {
+      type: "input",
+      message: "enter intern email:",
+      name:"empemail"
+    },
+    {
+      type: "input",
+      message: "enter intern school:",
+      name:"empschool"
+    }
+  ])
+  .then(response => {
+    let newIntern = new Intern
+    (response.empname, response.empid, response.empemail, response.empschool);
+    console.log(newIntern);
+    employees.push(newIntern);
+    startApp();
+  })
+}
+
+async function  renderHTML () {
+  let data = await render(employees);
+  console.log(data,"final HTML");
+}
+
+startApp();
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 
@@ -20,7 +147,7 @@ const render = require("./lib/htmlRenderer");
 
 // After you have your html, you're now ready to create an HTML file using the HTML
 // returned from the `render` function. Now write it to a file named `team.html` in the
-// `output` folder. You can use the variable `outputPath` above target this location.
+// `output` folder. You can use the variable `outputPath` above to target this location.
 // Hint: you may need to check if the `output` folder exists and create it if it
 // does not.
 
