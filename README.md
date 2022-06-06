@@ -25,7 +25,7 @@ Picture of the application:
 Github Link: https://github.com/hannahisprogramming/team-profile-generator
 
 ### Display
-![Team Profile Example]()
+![Team Profile Example](assets/team-profile-example.jpg)
 
 ### Installation
 Node.js
